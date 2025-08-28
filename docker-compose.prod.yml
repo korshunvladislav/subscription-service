@@ -1,0 +1,27 @@
+services:
+    go-app:
+        image: 0agressiiman/go-app:latest
+        container_name: go-app
+        environment:
+            PORT: "8000"
+            DATABASE_URL: "host=go_db user=postgres password=postgres dbname=postgres sslmode=disable"
+            APP_ENV: "production"
+        ports:
+            - "8000:8000"
+        depends_on:
+            - go_db
+
+    go_db:
+        image: postgres:17.4
+        container_name: go_db
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: postgres
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+volumes:
+    pgdata: {}
